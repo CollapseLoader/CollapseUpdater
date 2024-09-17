@@ -1,0 +1,1 @@
+# CollapseUpdater, a program that downloads the latest release of [CollapseLoader](https://github.com/dest4590/CollapseLoader)
