@@ -1,0 +1,4 @@
+rich==13.8.1
+requests==2.32.3
+pyinstaller==6.10.0
+virtualenv==20.26.4
