@@ -17,7 +17,7 @@ class Builder:
         for file in glob('*.exe'):
             os.remove(file)
         
-        os.system(f'''pyinstaller --onefile --clean --console --name "{self.name}" --icon "collapse\\assets\\{self.icon}" run.py''')
+        os.system(f'''pyinstaller --onefile --clean --console --name "{self.name}" --icon "assets\\{self.icon}" main.py''')
 
         # Move .exe file to root
         for file in glob('dist/*.exe'):

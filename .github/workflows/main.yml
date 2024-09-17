@@ -22,7 +22,7 @@ jobs:
             - name: Setup Python
               uses: actions/setup-python@v5
               with:
-                  python-version: 3.12.5
+                  python-version: 3.12.6
                   cache: 'pip'
 
             - name: Install requirements
@@ -32,6 +32,25 @@ jobs:
             - name: Make Build
               run: |
                   python builder.py
+
+            - name: Set artifact path/name
+              run: |
+                  $ARTIFACT_PATH=Get-ChildItem -Path .\ -Filter "CollapseUpdater*.exe"  -Recurse | Select-Object -ExpandProperty Name | Split-Path -Leaf
+                  echo "ARTIFACT_PATH=$ARTIFACT_PATH" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+                  $ARTIFACT_HASH=git rev-parse --short HEAD
+                  echo "ARTIFACT_HASH=$ARTIFACT_HASH" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+                  $commitHash = git rev-parse --short HEAD
+
+                  Get-ChildItem -Path .\ -Filter "CollapseUpdater*.exe" | ForEach-Object {
+                      $ARTIFACT_PATH = "CollapseUpdater_$commitHash.exe"
+                      echo "ARTIFACT_PATH=$ARTIFACT_PATH" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+                      Rename-Item -Path $_.FullName -NewName $ARTIFACT_PATH
+                  }
+
+                  echo $ARTIFACT_PATH
+
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
