@@ -101,7 +101,7 @@ class Updater:
 
     def delete_old_releases(self, exclude_file=None):
         """Delete old releases of CollapseLoader, optionally excluding a file"""
-        old_releases = glob.glob("CollapseLoader*")
+        old_releases = glob.glob("CollapseLoader*.exe")
         for old_release in old_releases:
             if old_release != exclude_file and os.path.isfile(old_release):
                 os.remove(old_release)
