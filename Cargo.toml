@@ -1,0 +1,23 @@
+[package]
+name = "collapse_updater"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json", "stream"] }
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+indicatif = "0.17"
+futures = "0.3"
+console = "0.15.8"
+
+[build-dependencies]
+winres = "0.1"
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+panic = "abort"
+strip = true
+lto = true
