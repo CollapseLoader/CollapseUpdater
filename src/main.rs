@@ -1,8 +1,3 @@
-use console::style;
-use futures::stream::StreamExt;
-use indicatif::{ProgressBar, ProgressStyle};
-use reqwest::Client;
-use serde::Deserialize;
 use std::{
     cmp::min,
     env,
@@ -13,6 +8,12 @@ use std::{
     path::Path,
     process::Command,
 };
+
+use console::style;
+use futures::stream::StreamExt;
+use indicatif::{ProgressBar, ProgressStyle};
+use reqwest::Client;
+use serde::Deserialize;
 
 #[derive(Deserialize)]
 struct Release {
@@ -49,20 +50,14 @@ impl fmt::Display for UpdaterError {
 
 impl Error for UpdaterError {}
 
-const GITHUB_REPO: &str = "dest4590/CollapseLoader";
-
 async fn get_download_url(
     client: &Client,
     pre_release: bool,
 ) -> Result<(String, u64), UpdaterError> {
-    let url = if pre_release {
-        format!("https://api.github.com/repos/{}/releases", GITHUB_REPO)
-    } else {
-        format!(
-            "https://api.github.com/repos/{}/releases/latest",
-            GITHUB_REPO
-        )
-    };
+    let url = format!(
+        "https://api.github.com/repos/dest4590/CollapseLoader/releases{}",
+        if pre_release { "" } else { "/latest" }
+    );
 
     let response = client
         .get(&url)
@@ -259,7 +254,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         style("Downloaded successfully:").green().bold(),
         filename
     ));
-    
+
     drop(file);
     drop(stream);
 
