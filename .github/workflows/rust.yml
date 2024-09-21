@@ -1,8 +1,16 @@
 name: Rust
 
 on:
-  push:
-    
+    push:
+        branches:
+            - main
+        paths:
+            - 'src/**'
+            - '**.toml'
+            - '**.yml'
+
+    workflow_dispatch:
+
 jobs:
   release:
     name: release ${{ matrix.target }}
